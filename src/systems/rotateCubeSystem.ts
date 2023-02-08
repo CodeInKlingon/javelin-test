@@ -1,16 +1,16 @@
 import * as j from "@javelin/ecs";
 import * as THREE from 'three';
 
-import { SpinningCube, RAPIER_Handle } from "../components";
+import { SpinningCube, RigidBody } from "../components";
 import { RAPIER_World } from '../resources';
 
 export const rotateCubeSystem = (world: j.World) => {
     
     // let scene = world.getResource(THREE_Scene)
     let rWorld = world.getResource(RAPIER_World)
-    let cubes = world.of(SpinningCube);
+    let cubes = world.query(SpinningCube, RigidBody);
 
-    cubes.each(cube => {
+    cubes.each( (cube) => {
 
         // set rotation on component
         // let rotation = world.get(cube, Rotation);
@@ -22,8 +22,7 @@ export const rotateCubeSystem = (world: j.World) => {
         // threeObject!.rotation.x += 0.01;
         // threeObject!.rotation.y += 0.01;
         
-        let handle = world.get(cube, RAPIER_Handle);
-        let rb = rWorld.bodies.get(handle!)
+        let rb = world.get(cube, RigidBody);
         let rot = rb!.rotation();
         const q = new THREE.Quaternion(rot.x,rot.y,rot.z,rot.w);
 

@@ -16,7 +16,7 @@
   "dependencies": {
     "@dimforge/rapier3d": "^0.11.1",
     "@dimforge/rapier3d-compat": "^0.11.1",
-    "@javelin/ecs": "^2.0.0-alpha.4",
+    "@javelin/ecs": "^2.0.0-alpha.5",
     "three": "^0.149.0"
   }
 }

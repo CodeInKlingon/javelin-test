@@ -1,25 +1,32 @@
 import { RAPIER_World } from "../resources"
 import * as j from "@javelin/ecs"
-import { Position, RAPIER_Handle, RigidBody, Rotation } from "../components";
+import { Mesh, Position, RigidBody, Rotation } from "../components";
+import { Euler, Quaternion, Vector3 } from "three";
 
 export const rapierSystem = (world : j.World) => {
 
     let rWorld = world.getResource(RAPIER_World);
 
     //apply physics world transformations to components
-    world.of(RAPIER_Handle, RigidBody, Position, Rotation).each((entity)=>{
-        let handle = world.get(entity,RAPIER_Handle);
-        let body = rWorld.bodies.get(handle!);
+    world.query(RigidBody, Position, Rotation).each((entity)=>{
+        let body = world.get(entity,RigidBody);
+        // let body = rWorld.bodies.get(handle!);
         let t = body!.translation();
         let r = body!.rotation();
-        // console.log(t);
         // console.log(r);
+        let mesh = world.get(entity,Mesh);
+
+        // console.log(mesh?.rotation);
         world.set(entity, Position,
-            {x: t.x, y: t.y, z: t.z}
+            new Vector3(t.x, t.y, t.z)
         );
+
+        let euler = new Euler();
+        euler.setFromQuaternion( new Quaternion(r.x,r.y,r.z,r.w));
         world.set(entity, Rotation,
-            {x: r.x, y: r.y, z: r.z, w: r.w}
+            euler
         );
+        // console.log(euler.x == mesh!.rotation.x && euler.y == mesh!.rotation.y && euler.z == mesh!.rotation.z)
 
     });
 

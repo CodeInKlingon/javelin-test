@@ -33,11 +33,11 @@ app.addResource(THREE_Renderer, renderer);
 
 app.addInitSystem(initThreeSystem);
 app.addInitSystem(initSceneSystem);
+app.addInitSystem(initUI);
 
 app.addSystem(rapierSystem);
 app.addSystem(rotateCubeSystem);
 app.addSystem(threeRenderSystem);
-app.addInitSystem(initUI);
 
 // app.addSystemToGroup(j.Group.LateUpdate, threeRenderSystem)
 
